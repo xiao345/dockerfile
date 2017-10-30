@@ -24,5 +24,5 @@ RUN apt-get update \
 RUN a2enmod rewrite \
     && mkdir -p /app \
     && rm -fr /var/www/html \
-    && ln -s /app/public /var/www/html
+    && ln -s /app /var/www/html
 WORKDIR /app
