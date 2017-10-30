@@ -26,4 +26,4 @@ USER es
 
 EXPOSE 9200 9300
 
-CMD ["elasticsearch", "--network.host", "_non_loopback_"]
+CMD ["elasticsearch"]
