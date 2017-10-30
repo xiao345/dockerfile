@@ -1,5 +1,5 @@
 FROM java:8-jre
-MAINTAINER cdyue <xiao345@gmail.com>
+MAINTAINER xiao <xiao345@gmail.com>
 
 ENV ES_VERSION="5.0.0"
 
