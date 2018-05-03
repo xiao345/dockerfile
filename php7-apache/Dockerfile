@@ -28,4 +28,5 @@ RUN a2enmod rewrite \
     && mkdir -p /app \
     && rm -fr /var/www/html \
     && ln -s /app/public /var/www/html
+RUN chown -R www-data:www-data /app
 WORKDIR /app
