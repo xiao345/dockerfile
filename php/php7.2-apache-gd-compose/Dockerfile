@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-install -j$(nproc) iconv pdo_mysql \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     # 用完包管理器后安排打扫卫生可以显著的减少镜像大小
@@ -20,5 +20,5 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 # 开启 URL 重写模块
 # 配置默认放置 App 的目录
 RUN a2enmod rewrite 
-RUN chown -R www-data:www-data /var/www/html
+CMD chown -R www-data:www-data /var/www/html
 WORKDIR /var/www/html
