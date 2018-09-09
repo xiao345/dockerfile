@@ -26,8 +26,10 @@ RUN a2enmod rewrite \
     && mkdir -p /app \
     && rm -fr /var/www/html
 
-RUN chown -R www-data:www-data /app
-
-CMD ln -s /app/public /var/www/html && apache2-foreground
+CMD chown -R www-data:www-data /app \
+    && ln -s /app/public/* /var/www/html \ 
+    && cd /app && composer install  --no-autoloader --no-scripts --no-dev \
+    && chmod -R 0777 /app/storage \
+    && apache2-foreground
 
 WORKDIR /app
