@@ -22,6 +22,12 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 # 开启 URL 重写模块
 # 配置默认放置 App 的目录
-RUN a2enmod rewrite 
-RUN chown -R www-data:www-data /var/www/html
-WORKDIR /var/www/html
+RUN a2enmod rewrite \
+    && mkdir -p /app \
+    && rm -fr /var/www/html
+
+RUN chown -R www-data:www-data /app
+
+CMD ln -s /app/public /var/www/html && apache2-foreground
+
+WORKDIR /app
