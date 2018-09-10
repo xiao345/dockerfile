@@ -31,6 +31,7 @@ RUN cd /root/ \
     && rm -rf /var/cache/apk/* \
     && rm -rf /root/swoole-src/ \
     && rm -rf /tmp/* \
+    && docker-php-ext-install swoole
 
 RUN mkdir -p /app
 WORKDIR /app
