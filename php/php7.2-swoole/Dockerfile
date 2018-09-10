@@ -1,6 +1,7 @@
 FROM php:7.2
 # APT 自动安装 PHP 相关的依赖包,如需其他依赖包在此添加
 RUN apt-get update && apt-get install -y \
+    git \
     libmcrypt-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
