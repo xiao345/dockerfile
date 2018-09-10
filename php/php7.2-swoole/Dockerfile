@@ -1,7 +1,6 @@
 FROM php:7.2
 # APT 自动安装 PHP 相关的依赖包,如需其他依赖包在此添加
 RUN apt-get update && apt-get install -y \
-    wget \
     libmcrypt-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -17,22 +16,21 @@ RUN apt-get update && apt-get install -y \
     # 安装 Composer，此物是 PHP 用来管理依赖关系的工具
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# install swoole
-# RUN pecl install swoole
-RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.30.0.tar.bz2 \
-    && tar -jxvf nghttp2-1.30.0.tar.bz2 \
-    && cd nghttp2-1.30.0 \
-    && ./configure \
-    && make && make install
-RUN cd /root && pecl download swoole && \
-    tar -zxvf swoole-4* && cd swoole-4* && \
-    phpize && \
-    ./configure --enable-openssl  --enable-http2  --enable-async-redis && \
-    make && make install
-RUN docker-php-ext-enable swoole
-
 # Composer中国全量镜像
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
-RUN mkdir -p /workdir
-WORKDIR /workdir
+# install swoole
+# RUN pecl install swoole
+RUN cd /root/ \
+    && git clone https://github.com/swoole/swoole-src.git \
+    && cd swoole-src/ \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    # && apk del libaio-dev php7-dev git autoconf build-base linux-headers \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /root/swoole-src/ \
+    && rm -rf /tmp/* \
+
+RUN mkdir -p /app
+WORKDIR /app
