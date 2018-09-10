@@ -33,5 +33,5 @@ RUN cd /root/ \
     && rm -rf /tmp/* \
     && docker-php-ext-install swoole
 
-RUN mkdir -p /app
+RUN mkdir /app
 WORKDIR /app
