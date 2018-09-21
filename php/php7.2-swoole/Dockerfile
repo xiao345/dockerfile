@@ -39,10 +39,12 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 #RUN pecl install swoole
 RUN cd /root && \
     curl 'http://pecl.php.net/get/swoole-4.2.1.tgz' -o swoole-4.2.1.tgz && \
-    tar -zxvf swoole-4* && cd swoole-4* && \
+    tar -zxvf swoole-4.2.1.tgz && cd swoole-4.2.1 && \
     phpize && \
-    ./configure --enable-openssl  --enable-http2  --enable-async-redis && \
-    make && make install 
+    ./configure && \
+    # --enable-openssl  --enable-http2  --enable-async-redis && \
+    make && make install && \
+    docker-php-ext-install swoole
 # RUN pecl install swoole redis && docker-php-ext-enable swoole redis
 
 RUN mkdir /app

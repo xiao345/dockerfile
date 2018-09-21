@@ -30,6 +30,7 @@ RUN a2enmod rewrite \
 
 CMD chown -R www-data:www-data /app \
     && ln -s /app/public/* /var/www/html \ 
+    && ln -s /app/public/.htaccess /var/www/html/.htaccess \
     && cd /app && composer install  --no-autoloader --no-scripts --no-dev \
     && chmod -R 0777 /app/storage \
     && apache2-foreground
