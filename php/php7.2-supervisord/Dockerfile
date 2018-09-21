@@ -21,6 +21,4 @@ WORKDIR /app
 
 RUN usermod -u 1000 www-data
 
-ENTRYPOINT supervisorctl reread \
-    && supervisorctl update \
-    && supervisorctl start
+ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
