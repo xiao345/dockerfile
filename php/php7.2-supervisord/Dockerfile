@@ -15,11 +15,12 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
 # 配置默认放置 App 的目录
-RUN mkdir -p /app
+RUN mkdir /app
 
 WORKDIR /app
 
 RUN usermod -u 1000 www-data
 
-# Default command
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT supervisorctl reread \
+    && supervisorctl update \
+    && supervisorctl start
