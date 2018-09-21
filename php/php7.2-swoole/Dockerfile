@@ -1,7 +1,8 @@
-FROM php:7.2
+FROM php:7.2-cli
 # APT 自动安装 PHP 相关的依赖包,如需其他依赖包在此添加
 RUN apt-get update && apt-get install -y \
     git \
+    curl \
     libmcrypt-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -22,17 +23,27 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 # install swoole
 # RUN pecl install swoole
-RUN cd /root/ \
-    && git clone https://github.com/swoole/swoole-src.git \
-    && cd swoole-src/ \
-    && phpize \
-    && ./configure \
-    && make && make install \
-    # && apk del libaio-dev php7-dev git autoconf build-base linux-headers \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /root/swoole-src/ \
-    && rm -rf /tmp/* \
-    && docker-php-ext-install swoole
+# RUN cd /root/ \
+#     && git clone https://github.com/swoole/swoole-src.git \
+#     && cd swoole-src/ \
+#     && phpize \
+#     && ./configure \
+#     && make && make install \
+#     # && apk del libaio-dev php7-dev git autoconf build-base linux-headers \
+#     && rm -rf /var/cache/apk/* \
+#     && rm -rf /root/swoole-src/ \
+#     && rm -rf /tmp/* \
+#     && docker-php-ext-install swoole
+
+# install swoole
+#RUN pecl install swoole
+RUN cd /root && \
+    curl 'http://pecl.php.net/get/swoole-4.2.1.tgz' -o swoole-4.2.1.tgz && \
+    tar -zxvf swoole-4* && cd swoole-4* && \
+    phpize && \
+    ./configure --enable-openssl  --enable-http2  --enable-async-redis && \
+    make && make install 
+# RUN pecl install swoole redis && docker-php-ext-enable swoole redis
 
 RUN mkdir /app
 WORKDIR /app
